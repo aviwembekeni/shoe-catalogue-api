@@ -14,9 +14,9 @@ CREATE TABLE shopping_basket
 (
   id serial not null primary key,
   basket_status VARCHAR,
-  date_created DATE DEFAULT GETDATE(),
-  date_checked_out DATE,
-  total INTEGER
+  date_created date not null default now(),
+  date_checked_out date,
+  total DECIMAL(7, 2) not null default 0.00
 )
 
 CREATE TABLE shopping_basket_item

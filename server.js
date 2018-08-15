@@ -30,7 +30,10 @@ app.get("/", (req, res) => {
   res.json("working");
 });
 
-app.get("/api/shoes", (req, res) => {});
+app.get("/api/shoes", async function(req, res) {
+  try {
+  } catch (error) {}
+});
 
 app.get("/api/shoes/brand/:brandname", (req, res) => {});
 
