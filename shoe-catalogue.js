@@ -89,6 +89,11 @@ module.exports = function(pool) {
     return shopping_basket.rows;
   }
 
+  async function getShoppingBaket() {
+    const shopping_basket = await pool.query("select * from shopping_basket");
+    return shopping_basket.rows;
+  }
+
   return {
     addShoe,
     getShoes,
@@ -97,6 +102,7 @@ module.exports = function(pool) {
     getShoesByBrandAndSize,
     buyShoe,
     addShoeToShoppingBasket,
-    getShoppingBaket
+    getShoppingBaket,
+    getShoppingBaketItems
   };
 };

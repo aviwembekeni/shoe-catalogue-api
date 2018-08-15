@@ -16,7 +16,7 @@ if (process.env.DATABASE_URL) {
 
 const connectionString =
   process.env.DATABASE_URL ||
-  "postgresql://postgres:lavish@localhost:5432/shoe-catalogue";
+  "postgresql://aviwe:aviwe@localhost:5432/shoe-catalogue";
 
 const pool = new Pool({
   connectionString,
