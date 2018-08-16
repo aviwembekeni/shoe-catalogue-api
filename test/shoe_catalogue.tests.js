@@ -11,7 +11,7 @@ if (process.env.DATABASE_URL) {
 const pool = new Pool({
   connectionString:
     process.env.DATABASE_URL ||
-    "postgresql://aviwe:aviwe@localhost:5432/shoe-catalogue-test",
+    "postgresql://postgres:lavish@localhost:5432/shoe-catalogue-test",
   ssl: useSSL
 });
 
@@ -24,7 +24,7 @@ describe("addShoes", function() {
     await pool.query("delete from shoes");
   });
 
-  it("should return shoes", async function() {
+  it("should return updated shoes with new shoe", async function() {
     let shoeCatalogue = ShoeCatalogue(pool);
 
     await shoeCatalogue.addShoe("Tommy Helfigure", "brown", 8, 9, 570);
@@ -33,6 +33,19 @@ describe("addShoes", function() {
     assert.equal(shoes[0].color, "brown");
     assert.equal(shoes[0].brand, "Tommy Helfigure");
     assert.equal(shoes[0].in_stock, 9);
+    assert.equal(shoes[0].price, 570);
+  });
+
+  it("should return updated shoes with in_stock incremented", async function() {
+    let shoeCatalogue = ShoeCatalogue(pool);
+
+    await shoeCatalogue.addShoe("Tommy Helfigure", "brown", 8, 9, 570);
+    await shoeCatalogue.addShoe("Tommy Helfigure", "brown", 8, 12, 400);
+    let shoes = await shoeCatalogue.getShoes();
+
+    assert.equal(shoes[0].color, "brown");
+    assert.equal(shoes[0].brand, "Tommy Helfigure");
+    assert.equal(shoes[0].in_stock, 10);
     assert.equal(shoes[0].price, 570);
   });
 });

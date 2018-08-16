@@ -1,9 +1,22 @@
 module.exports = function(pool) {
   async function addShoe(brand, color, size, in_stock, price) {
-    await pool.query(
-      "INSERT INTO shoes(color, brand, price, size, in_stock) VALUES($1, $2, $3, $4, $5)",
-      [color, brand, price, size, in_stock]
+    let shoes = await pool.query(
+      "SELECT id FROM shoes WHERE brand = $1 AND color = $2 AND size = $3",
+      [brand, color, size]
     );
+
+    if (shoes.rowCount === 0) {
+      await pool.query(
+        "INSERT INTO shoes(color, brand, price, size, in_stock) VALUES($1, $2, $3, $4, $5)",
+        [color, brand, price, size, in_stock]
+      );
+    } else {
+      const shoeId = shoes.rows[0].id;
+      await pool.query(
+        "UPDATE shoes SET in_stock = in_stock + 1 WHERE shoes.id = $1",
+        [shoeId]
+      );
+    }
   }
 
   async function getShoes() {
@@ -45,7 +58,7 @@ module.exports = function(pool) {
   }
 
   async function addShoeToShoppingBasket(shoeId) {
-    // check if basket already exist, if notr create a new one
+    // check if basket already exist, if not create a new one
 
     let basketIds = await pool.query("SELECT id FROM shopping_basket");
 
