@@ -30,4 +30,23 @@ CREATE TABLE shopping_basket_item
   FOREIGN KEY (basket_id) REFERENCES shopping_basket(id)
 )
 
+INSERT INTO shoes
+  (color, brand, price, size, in_stock)
+VALUES
+  ('brown', 'Tommy Helfiger', 860, 8, 9);
+
+INSERT INTO shoes
+  (color, brand, price, size, in_stock)
+VALUES
+  ('maroon', 'Lacoste', 860, 8, 9);
+
+INSERT INTO shoes
+  (color, brand, price, size, in_stock)
+VALUES
+  ('brown', 'Tommy Helfiger', 860, 5, 9);
+
+INSERT INTO shoes
+  (color, brand, price, size, in_stock)
+VALUES
+  ('maroon', 'Lacoste', 860, 7, 9);
 

@@ -1,10 +1,7 @@
-const axios = require("axios");
-
-module.exports = function() {
+function ShoeCatalogue() {
   async function getShoes() {
     try {
       const response = await axios.get("/api/shoes");
-      console.log(response);
       return response;
     } catch (error) {
       console.log(error);
@@ -58,4 +55,4 @@ module.exports = function() {
     getShoesByBrandAndSize,
     addShoeToShoppingBasket
   };
-};
+}

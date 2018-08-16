@@ -31,13 +31,11 @@ app.use(bodyParser.json()); // support json encoded bodies
 app.use(bodyParser.urlencoded({ extended: false })); // support encoded bodies
 app.use(express.static("public"));
 
-app.get("/", (req, res) => {
-  res.render("index");
-});
-
 app.get("/api/shoes", async function(req, res, next) {
   try {
     let shoes = await shoeCatalogue.getShoes();
+    console.log(shoes);
+
     res.json(shoes);
   } catch (error) {
     next(error);
@@ -54,7 +52,20 @@ app.get("/api/shoes/brand/:brandname/size/:size", async function(
   next
 ) {});
 
-app.post("/api/shoes/sold/:id", async function(req, res, next) {});
+app.post("/api/shoes/sold/:id", async function(req, res, next) {
+  try {
+    const shoeId = req.params.id;
+    console.log(shoeId);
+
+    await shoeCatalogue.addShoeToShoppingBasket(shoeId);
+    let shoes = await shoeCatalogue.getShoes();
+    console.log(shoes);
+
+    res.json(shoes);
+  } catch (error) {
+    next(error);
+  }
+});
 
 app.post("/api/shoes", async function(req, res, next) {});
 

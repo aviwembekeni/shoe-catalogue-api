@@ -1,5 +1,3 @@
-const axios = require("axios");
-
 var brandFilterSelect = document.querySelector(".brandFilter");
 var sizeFilterSelect = document.querySelector(".sizeFilter");
 var searchButton = document.querySelector(".searchButton");
@@ -31,6 +29,59 @@ var clearShoppingBasketButton = document.querySelector(".clearBtn");
 var successMessageDivElem = document.querySelector(".successMessageDiv");
 var errorMessageDivElem = document.querySelector(".errorMessageDiv");
 
-searchButton.addEventListener("click", handleSearch);
-addButton.addEventListener("click", handleAdd);
-clearShoppingBasketButton.addEventListener("click", handleClearBasket);
+// searchButton.addEventListener("click", handleSearch);
+// addButton.addEventListener("click", handleAdd);
+// clearShoppingBasketButton.addEventListener("click", handleClearBasket);
+
+var shoeCatalogue = ShoeCatalogue();
+
+shoeCatalogue
+  .getShoes()
+  .then(response => {
+    showShoesResults(response.data);
+  })
+  .catch(err => console.log(err));
+
+function showShoesResults(filteredShoes, brand, color, size) {
+  console.log(filteredShoes);
+
+  if (filteredShoes.length !== 0) {
+    filteredShoesData = searchResultsTemplate({
+      shoes: filteredShoes
+    });
+
+    shoeResultsDisplayElement.innerHTML = filteredShoesData;
+  } else {
+    if (brand !== undefined) {
+      filteredShoesData = searchResultsTemplate({
+        shoes: [
+          {
+            in_stock: 0,
+            brand: brand,
+            color: color,
+            size: size
+          }
+        ]
+      });
+
+      shoeResultsDisplayElement.innerHTML = filteredShoesData;
+    }
+  }
+}
+
+function addToBasket(id) {
+  shoeCatalogue.addShoeToShoppingBasket(id);
+  // var shoppingBasket = shoeCatalogue.getShoppingBasket();
+
+  var updatedShoes = shoeCatalogue.getShoes().then(response => {
+    console.log(response.data);
+    showShoesResults(
+      updatedShoes.data
+      // updatedShoes.brand,
+      // updatedShoes.color,
+      // updatedShoes.size
+    );
+  });
+
+  // showShoppingBasket(shoppingBasket);
+}
