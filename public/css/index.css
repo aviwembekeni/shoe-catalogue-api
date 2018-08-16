@@ -1,0 +1,52 @@
+h3 {
+  text-align: center;
+}
+
+#shoppingBasket {
+  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+#shoppingBasket td,
+#shoppingBasket th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+#shoppingBasket tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+#shoppingBasket tr:hover {
+  background-color: #ddd;
+}
+
+#shoppingBasket th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #4caf50;
+  color: white;
+}
+
+.successMessageDiv {
+  display: none;
+  padding: 7px;
+  background-color: #4caf50;
+  color: white;
+  margin-right: 1rem;
+}
+
+.errorMessageDiv {
+  display: none;
+  padding: 7px;
+  background-color: #f44336;
+  color: white;
+  margin-right: 1rem;
+}
+
+select,
+input {
+  width: 100%;
+}

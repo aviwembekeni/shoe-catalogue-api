@@ -4,6 +4,7 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const pg = require("pg");
 const Pool = pg.Pool;
+const ShoeCatalogue = require("./shoe-catalogue");
 
 const app = express();
 
@@ -23,27 +24,39 @@ const pool = new Pool({
   ssl: useSSL
 });
 
-app.use(bodyParser.json());
+const shoeCatalogue = ShoeCatalogue(pool);
+
 app.use(cors());
+app.use(bodyParser.json()); // support json encoded bodies
+app.use(bodyParser.urlencoded({ extended: false })); // support encoded bodies
+app.use(express.static("public"));
 
 app.get("/", (req, res) => {
-  res.json("working");
+  res.render("index");
 });
 
-app.get("/api/shoes", async function(req, res) {
+app.get("/api/shoes", async function(req, res, next) {
   try {
-  } catch (error) {}
+    let shoes = await shoeCatalogue.getShoes();
+    res.json(shoes);
+  } catch (error) {
+    next(error);
+  }
 });
 
-app.get("/api/shoes/brand/:brandname", (req, res) => {});
+app.get("/api/shoes/brand/:brandname", async function(req, res, next) {});
 
-app.get("/api/shoes/size/:size", (req, res) => {});
+app.get("/api/shoes/size/:size", async function(req, res, next) {});
 
-app.get("/api/shoes/brand/:brandname/size/:size", (req, res) => {});
+app.get("/api/shoes/brand/:brandname/size/:size", async function(
+  req,
+  res,
+  next
+) {});
 
-app.post("/api/shoes/sold/:id", (req, res) => {});
+app.post("/api/shoes/sold/:id", async function(req, res, next) {});
 
-app.post("/api/shoes");
+app.post("/api/shoes", async function(req, res, next) {});
 
 app.listen(PORT, () => {
   console.log(`app is running on PORT ${PORT}`);
