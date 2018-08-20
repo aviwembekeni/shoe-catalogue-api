@@ -44,15 +44,46 @@ app.get("/api/shoes", async function(req, res, next) {
   }
 });
 
-app.get("/api/shoes/brand/:brandname", async function(req, res, next) {});
+app.get("/api/shoes/brand/:brandname", async function(req, res, next) {
+  try {
+    let brand = req.params.brandname;
+    let shoes = await shoeCatalogue.getShoesByBrand(brand);
+    res.json({
+      shoes
+    });
+  } catch (error) {
+    next(error);
+  }
+});
 
-app.get("/api/shoes/size/:size", async function(req, res, next) {});
+app.get("/api/shoes/size/:size", async function(req, res, next) {
+  try {
+    let size = req.params.size;
+    let shoes = await shoeCatalogue.getShoesBySize(size);
+    res.json({
+      shoes
+    });
+  } catch (error) {
+    next(error);
+  }
+});
 
 app.get("/api/shoes/brand/:brandname/size/:size", async function(
   req,
   res,
   next
-) {});
+) {
+  try {
+    let brand = req.params.brandname;
+    let size = req.params.size;
+    let shoes = await shoeCatalogue.getShoesByBrandAndSize(brand, size);
+    res.json({
+      shoes
+    });
+  } catch (error) {
+    next(error);
+  }
+});
 
 app.post("/api/shoes/sold/:id", async function(req, res, next) {
   try {

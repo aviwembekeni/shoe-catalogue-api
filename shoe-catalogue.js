@@ -49,12 +49,19 @@ module.exports = function(pool) {
   }
 
   async function buyShoe(shoeId) {
-    await pool.query(
-      "UPDATE shoes SET in_stock = in_stock - 1 WHERE id = $1 AND in_stock > 0",
+    let shoes = await pool.query(
+      "SELECT * from shoes WHERE id = $1 AND in_stock > 0",
       [shoeId]
     );
 
-    addShoeToShoppingBasket(shoeId);
+    if (shoes.rowCount > 0) {
+      await pool.query(
+        "UPDATE shoes SET in_stock = in_stock - 1 WHERE id = $1 AND in_stock > 0",
+        [shoeId]
+      );
+
+      addShoeToShoppingBasket(shoeId);
+    }
   }
 
   async function addShoeToShoppingBasket(shoeId) {

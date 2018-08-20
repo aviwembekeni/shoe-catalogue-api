@@ -29,12 +29,14 @@ var clearShoppingBasketButton = document.querySelector(".clearBtn");
 var successMessageDivElem = document.querySelector(".successMessageDiv");
 var errorMessageDivElem = document.querySelector(".errorMessageDiv");
 
-// searchButton.addEventListener("click", handleSearch);
+searchButton.addEventListener("click", handleSearch);
 // addButton.addEventListener("click", handleAdd);
 // clearShoppingBasketButton.addEventListener("click", handleClearBasket);
 
+//Create ShoeCatalogue instance
 var shoeCatalogue = ShoeCatalogue();
 
+// Get all shoes
 shoeCatalogue
   .getShoes()
   .then(response => {
@@ -45,31 +47,16 @@ shoeCatalogue
   })
   .catch(err => console.log(err));
 
+// Dsiplay shoes function
 function showShoesResults(filteredShoes, brand, color, size) {
-  if (filteredShoes.length !== 0) {
-    filteredShoesData = searchResultsTemplate({
-      shoes: filteredShoes
-    });
+  filteredShoesData = searchResultsTemplate({
+    shoes: filteredShoes
+  });
 
-    shoeResultsDisplayElement.innerHTML = filteredShoesData;
-  } else {
-    if (brand !== undefined) {
-      filteredShoesData = searchResultsTemplate({
-        shoes: [
-          {
-            in_stock: 0,
-            brand: brand,
-            color: color,
-            size: size
-          }
-        ]
-      });
-
-      shoeResultsDisplayElement.innerHTML = filteredShoesData;
-    }
-  }
+  shoeResultsDisplayElement.innerHTML = filteredShoesData;
 }
 
+//Display shopping basket function
 function showShoppingBasket(shoppingBasket) {
   var shoppingBasketData = {
     shoes: shoppingBasket,
@@ -81,26 +68,76 @@ function showShoppingBasket(shoppingBasket) {
   );
 }
 
+// Add shoe to shopping basket function
 function addToBasket(id) {
   shoeCatalogue
     .addShoeToShoppingBasket(id)
     .then(response => console.log(response))
     .catch(err => console.log(err));
-  // var shoppingBasket = shoeCatalogue.getShoppingBasket();
 
-  var updatedShoes = shoeCatalogue.getShoes().then(response => {
-    console.log(response, "response");
-    showShoesResults(
-      response.data.shoes
-      // updatedShoes.brand,
-      // updatedShoes.color,
-      // updatedShoes.size
-    );
+  var brand = brandFilterSelect.value;
+  var size = sizeFilterSelect.value;
 
-    if (response.data.shoppingBasketItems.length > 0) {
-      showShoppingBasket(response.data.shoppingBasketItems);
-    }
-  });
+  console.log(brand, size, "brand and size");
+  if (brand === "" && size == "") {
+    shoeCatalogue.getShoes().then(response => {
+      console.log(response, "response");
+      showShoesResults(response.data.shoes);
+    });
+  } else if (brand !== "" && size !== "") {
+    shoeCatalogue.getShoesByBrandAndSize(brand, size).then(response => {
+      console.log(response, "response");
+      showShoesResults(response.data.shoes);
+    });
+  } else if (brand !== "" && size == "") {
+    shoeCatalogue.getShoesByBrand(brand).then(response => {
+      showShoesResults(response.data.shoes);
+    });
+  } else if (brand === "" && size !== "") {
+    shoeCatalogue.getShoesBySize(size).then(response => {
+      showShoesResults(response.data.shoes);
+    });
+  }
+}
 
-  //
+// Filter shoes function
+
+function handleSearch() {
+  var brand = brandFilterSelect.value;
+  var size = sizeFilterSelect.value;
+
+  if (brand !== "" && size !== "") {
+    shoeCatalogue
+      .getShoesByBrandAndSize(brand, size)
+      .then(response => {
+        showShoesResults(response.data.shoes);
+
+        if (response.data.shoppingBasketItems.length > 0) {
+          showShoppingBasket(response.data.shoppingBasketItems);
+        }
+      })
+      .catch(err => console.log(err));
+  } else if (brand !== "") {
+    shoeCatalogue
+      .getShoesByBrand(brand)
+      .then(response => {
+        showShoesResults(response.data.shoes);
+
+        if (response.data.shoppingBasketItems.length > 0) {
+          showShoppingBasket(response.data.shoppingBasketItems);
+        }
+      })
+      .catch(err => console.log(err));
+  } else if (size !== "") {
+    shoeCatalogue
+      .getShoesBySize(size)
+      .then(response => {
+        showShoesResults(response.data.shoes);
+
+        if (response.data.shoppingBasketItems.length > 0) {
+          showShoppingBasket(response.data.shoppingBasketItems);
+        }
+      })
+      .catch(err => console.log(err));
+  }
 }
