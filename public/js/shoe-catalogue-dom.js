@@ -38,13 +38,14 @@ var shoeCatalogue = ShoeCatalogue();
 shoeCatalogue
   .getShoes()
   .then(response => {
-    showShoesResults(response.data);
+    showShoesResults(response.data.shoes);
+    if (response.data.shoppingBasketItems.length > 0) {
+      showShoppingBasket(response.data.shoppingBasketItems);
+    }
   })
   .catch(err => console.log(err));
 
 function showShoesResults(filteredShoes, brand, color, size) {
-  console.log(filteredShoes);
-
   if (filteredShoes.length !== 0) {
     filteredShoesData = searchResultsTemplate({
       shoes: filteredShoes
@@ -69,19 +70,37 @@ function showShoesResults(filteredShoes, brand, color, size) {
   }
 }
 
+function showShoppingBasket(shoppingBasket) {
+  var shoppingBasketData = {
+    shoes: shoppingBasket,
+    totalAmount: shoppingBasket[0].total
+  };
+
+  shoppingBasketDisplayElem.innerHTML = shoppingBasketTemplate(
+    shoppingBasketData
+  );
+}
+
 function addToBasket(id) {
-  shoeCatalogue.addShoeToShoppingBasket(id);
+  shoeCatalogue
+    .addShoeToShoppingBasket(id)
+    .then(response => console.log(response))
+    .catch(err => console.log(err));
   // var shoppingBasket = shoeCatalogue.getShoppingBasket();
 
   var updatedShoes = shoeCatalogue.getShoes().then(response => {
-    console.log(response.data);
+    console.log(response, "response");
     showShoesResults(
-      updatedShoes.data
+      response.data.shoes
       // updatedShoes.brand,
       // updatedShoes.color,
       // updatedShoes.size
     );
+
+    if (response.data.shoppingBasketItems.length > 0) {
+      showShoppingBasket(response.data.shoppingBasketItems);
+    }
   });
 
-  // showShoppingBasket(shoppingBasket);
+  //
 }

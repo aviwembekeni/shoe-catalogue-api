@@ -34,9 +34,11 @@ app.use(express.static("public"));
 app.get("/api/shoes", async function(req, res, next) {
   try {
     let shoes = await shoeCatalogue.getShoes();
-    console.log(shoes);
-
-    res.json(shoes);
+    let shoppingBasketItems = await shoeCatalogue.getShoppingBaketItems();
+    res.json({
+      shoes,
+      shoppingBasketItems
+    });
   } catch (error) {
     next(error);
   }
@@ -55,13 +57,15 @@ app.get("/api/shoes/brand/:brandname/size/:size", async function(
 app.post("/api/shoes/sold/:id", async function(req, res, next) {
   try {
     const shoeId = req.params.id;
-    console.log(shoeId);
 
-    await shoeCatalogue.addShoeToShoppingBasket(shoeId);
-    let shoes = await shoeCatalogue.getShoes();
-    console.log(shoes);
+    if (shoeId !== "" && shoeId !== undefined) {
+      await shoeCatalogue.buyShoe(shoeId);
+      let shoes = await shoeCatalogue.getShoes();
 
-    res.json(shoes);
+      res.json(shoes);
+    } else {
+      res.status(400).json("Shoe id is null or undefined");
+    }
   } catch (error) {
     next(error);
   }
