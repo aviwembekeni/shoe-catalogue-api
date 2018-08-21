@@ -141,7 +141,8 @@ module.exports = function(pool) {
           [qty]
         );
       }
-      await pool.query("DELETE  FROM shopping_basket_item");
+      await pool.query("DELETE FROM shopping_basket_item");
+      await pool.query("UPDATE shopping_basket set total = 0");
       return true;
     } else {
       return "shopping cart is empty!!!";
