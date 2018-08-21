@@ -42,7 +42,33 @@ function ShoeCatalogue() {
 
   async function addShoeToShoppingBasket(shoeId) {
     try {
-      await axios.post("/api/shoes/sold/" + shoeId);
+      const response = await axios.post("/api/shoes/sold/" + shoeId);
+      return response;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async function addShoe(brand, color, size, price, in_stock) {
+    try {
+      const response = await axios.post("/api/shoes/", {
+        brand,
+        color,
+        size,
+        price,
+        in_stock
+      });
+
+      return response;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async function clearShoppingBasket() {
+    try {
+      const response = await axios.post("/api/clear/");
+      return response;
     } catch (error) {
       console.log(error);
     }
@@ -53,6 +79,8 @@ function ShoeCatalogue() {
     getShoesByBrand,
     getShoesBySize,
     getShoesByBrandAndSize,
-    addShoeToShoppingBasket
+    addShoeToShoppingBasket,
+    addShoe,
+    clearShoppingBasket
   };
 }

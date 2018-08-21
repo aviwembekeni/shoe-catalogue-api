@@ -17,7 +17,7 @@ if (process.env.DATABASE_URL) {
 
 const connectionString =
   process.env.DATABASE_URL ||
-  "postgresql://postgres:lavish@localhost:5432/shoe-catalogue";
+  "postgresql://aviwe:aviwe@localhost:5432/shoe-catalogue";
 
 const pool = new Pool({
   connectionString,
@@ -35,6 +35,7 @@ app.get("/api/shoes", async function(req, res, next) {
   try {
     let shoes = await shoeCatalogue.getShoes();
     let shoppingBasketItems = await shoeCatalogue.getShoppingBaketItems();
+    console.log(shoppingBasketItems);
     res.json({
       shoes,
       shoppingBasketItems
@@ -91,12 +92,30 @@ app.post("/api/shoes/sold/:id", async function(req, res, next) {
 
     if (shoeId !== "" && shoeId !== undefined) {
       await shoeCatalogue.buyShoe(shoeId);
-      let shoes = await shoeCatalogue.getShoes();
-
-      res.json(shoes);
+      res.redirect("/api/shoes");
     } else {
       res.status(400).json("Shoe id is null or undefined");
     }
+  } catch (error) {
+    next(error);
+  }
+});
+
+app.post("/api/shoes/", async function(req, res, next) {
+  try {
+    const { brand, color, size, price, in_stock } = req.body;
+
+    await shoeCatalogue.addShoe(brand, color, size, price, in_stock);
+    res.redirect("/api/shoes");
+  } catch (error) {
+    next(error);
+  }
+});
+
+app.post("/api/clear/", async function(req, res, next) {
+  try {
+    await shoeCatalogue.clearShoppingBasket();
+    res.redirect("/api/shoes");
   } catch (error) {
     next(error);
   }
