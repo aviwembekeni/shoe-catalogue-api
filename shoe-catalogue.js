@@ -13,8 +13,8 @@ module.exports = function(pool) {
     } else {
       const shoeId = shoes.rows[0].id;
       await pool.query(
-        "UPDATE shoes SET in_stock = in_stock + 1 WHERE shoes.id = $1",
-        [shoeId]
+        "UPDATE shoes SET in_stock = in_stock + $1 WHERE shoes.id = $2",
+        [in_stock, shoeId]
       );
     }
   }
@@ -93,13 +93,11 @@ module.exports = function(pool) {
       ]);
 
       let price = prices.rows[0].price;
-      console.log(price, "insert");
       await pool.query(
         "INSERT INTO shopping_basket_item(basket_id, shoe_id, shoe_price, total_price, qty) VALUES($1, $2, $3, $4, $5)",
         [basketId, shoeId, price, price, 1]
       );
     } else {
-      console.log("update");
       await pool.query(
         "UPDATE shopping_basket_item SET qty = qty + 1, total_price = shoe_price * (qty + 1) WHERE shoe_id = $1",
         [shoeId]
@@ -137,8 +135,8 @@ module.exports = function(pool) {
       for (const item of itemList) {
         let qty = item.qty;
         await pool.query(
-          "UPDATE shoes SET quantity=(quantity+$1) Where id=${item.shoe_id}",
-          [qty]
+          "UPDATE shoes SET in_stock=(in_stock+$1) Where id=$2",
+          [qty, item.shoe_id]
         );
       }
       await pool.query("DELETE FROM shopping_basket_item");

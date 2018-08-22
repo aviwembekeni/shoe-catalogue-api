@@ -4,27 +4,27 @@ function ShoeCatalogue() {
       const response = await axios.get("/api/shoes");
       return response;
     } catch (error) {
-      console.log(error);
+      alert(error);
     }
   }
 
   async function getShoesByBrand(brand) {
     try {
       const response = await axios.get("/api/shoes/brand/" + brand);
-      console.log(response);
+
       return response;
     } catch (error) {
-      console.log(error);
+      alert(error);
     }
   }
 
   async function getShoesBySize(size) {
     try {
       const response = await axios.get("/api/shoes/size/" + size);
-      console.log(response);
+
       return response;
     } catch (error) {
-      console.log(error);
+      alert(error);
     }
   }
 
@@ -33,10 +33,10 @@ function ShoeCatalogue() {
       const response = await axios.get(
         "/api/shoes/brand/" + brand + "/size/" + size
       );
-      console.log(response);
+
       return response;
     } catch (error) {
-      console.log(error);
+      alert(error);
     }
   }
 
@@ -45,7 +45,7 @@ function ShoeCatalogue() {
       const response = await axios.post("/api/shoes/sold/" + shoeId);
       return response;
     } catch (error) {
-      console.log(error);
+      alert(error);
     }
   }
 
@@ -61,7 +61,7 @@ function ShoeCatalogue() {
 
       return response;
     } catch (error) {
-      console.log(error);
+      alert(error);
     }
   }
 
@@ -70,7 +70,7 @@ function ShoeCatalogue() {
       const response = await axios.post("/api/clear/");
       return response;
     } catch (error) {
-      console.log(error);
+      alert(error);
     }
   }
 

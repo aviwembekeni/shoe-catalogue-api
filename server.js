@@ -17,7 +17,7 @@ if (process.env.DATABASE_URL) {
 
 const connectionString =
   process.env.DATABASE_URL ||
-  "postgresql://aviwe:aviwe@localhost:5432/shoe-catalogue";
+  "postgresql://postgres:lavish@localhost:5432/shoe-catalogue";
 
 const pool = new Pool({
   connectionString,
@@ -49,8 +49,10 @@ app.get("/api/shoes/brand/:brandname", async function(req, res, next) {
   try {
     let brand = req.params.brandname;
     let shoes = await shoeCatalogue.getShoesByBrand(brand);
+    let shoppingBasketItems = await shoeCatalogue.getShoppingBaketItems();
     res.json({
-      shoes
+      shoes,
+      shoppingBasketItems
     });
   } catch (error) {
     next(error);
@@ -61,8 +63,10 @@ app.get("/api/shoes/size/:size", async function(req, res, next) {
   try {
     let size = req.params.size;
     let shoes = await shoeCatalogue.getShoesBySize(size);
+    let shoppingBasketItems = await shoeCatalogue.getShoppingBaketItems();
     res.json({
-      shoes
+      shoes,
+      shoppingBasketItems
     });
   } catch (error) {
     next(error);
@@ -78,8 +82,10 @@ app.get("/api/shoes/brand/:brandname/size/:size", async function(
     let brand = req.params.brandname;
     let size = req.params.size;
     let shoes = await shoeCatalogue.getShoesByBrandAndSize(brand, size);
+    let shoppingBasketItems = await shoeCatalogue.getShoppingBaketItems();
     res.json({
-      shoes
+      shoes,
+      shoppingBasketItems
     });
   } catch (error) {
     next(error);
