@@ -27,7 +27,7 @@ describe("addShoes", function() {
   it("should return updated shoes with new shoe", async function() {
     let shoeCatalogue = ShoeCatalogue(pool);
 
-    await shoeCatalogue.addShoe("Tommy Helfigure", "brown", 8, 9, 570);
+    await shoeCatalogue.addShoe("Tommy Helfigure", "brown", 8, 570, 9);
     let shoes = await shoeCatalogue.getShoes();
 
     assert.equal(shoes[0].color, "brown");
@@ -36,16 +36,16 @@ describe("addShoes", function() {
     assert.equal(shoes[0].price, 570);
   });
 
-  it("should return updated shoes with in_stock incremented", async function() {
+  it("should return updated shoes with in_stock incremented by stock value that is passed", async function() {
     let shoeCatalogue = ShoeCatalogue(pool);
 
-    await shoeCatalogue.addShoe("Tommy Helfigure", "brown", 8, 9, 570);
-    await shoeCatalogue.addShoe("Tommy Helfigure", "brown", 8, 12, 400);
+    await shoeCatalogue.addShoe("Tommy Helfigure", "brown", 8, 570, 9);
+    await shoeCatalogue.addShoe("Tommy Helfigure", "brown", 8, 400, 12);
     let shoes = await shoeCatalogue.getShoes();
 
     assert.equal(shoes[0].color, "brown");
     assert.equal(shoes[0].brand, "Tommy Helfigure");
-    assert.equal(shoes[0].in_stock, 10);
+    assert.equal(shoes[0].in_stock, 21);
     assert.equal(shoes[0].price, 570);
   });
 });
@@ -60,8 +60,8 @@ describe("getShoesBySize", function() {
   it("should return shoes filtered by size", async function() {
     let shoeCatalogue = ShoeCatalogue(pool);
 
-    await shoeCatalogue.addShoe("Tommy Helfigure", "brown", 8, 9, 570);
-    await shoeCatalogue.addShoe("Lacoste", "maroon", 9, 7, 900);
+    await shoeCatalogue.addShoe("Tommy Helfigure", "brown", 8, 570, 9);
+    await shoeCatalogue.addShoe("Lacoste", "maroon", 9, 900, 7);
     let shoes = await shoeCatalogue.getShoesBySize(9);
 
     assert.equal(shoes.length, 1);
@@ -82,10 +82,10 @@ describe("getShoesByBrandAndSize", function() {
   it("should return shoes filtered by size", async function() {
     let shoeCatalogue = ShoeCatalogue(pool);
 
-    await shoeCatalogue.addShoe("Tommy Helfiger", "brown", 8, 9, 570);
-    await shoeCatalogue.addShoe("Lacoste", "maroon", 9, 7, 900);
-    await shoeCatalogue.addShoe("Tommy Helfiger", "brown", 7, 4, 570);
-    await shoeCatalogue.addShoe("Lacoste", "maroon", 7, 7, 900);
+    await shoeCatalogue.addShoe("Tommy Helfiger", "brown", 8, 570, 9);
+    await shoeCatalogue.addShoe("Lacoste", "maroon", 9, 900, 7);
+    await shoeCatalogue.addShoe("Tommy Helfiger", "brown", 7, 570, 4);
+    await shoeCatalogue.addShoe("Lacoste", "maroon", 7, 900, 7);
 
     let shoes = await shoeCatalogue.getShoesByBrandAndSize("Tommy Helfiger", 7);
 
@@ -107,8 +107,8 @@ describe("getShoesByBrand", function() {
   it("should return shoes shoes filtered by brand", async function() {
     let shoeCatalogue = ShoeCatalogue(pool);
 
-    await shoeCatalogue.addShoe("Tommy Helfigure", "brown", 8, 9, 570);
-    await shoeCatalogue.addShoe("Lacoste", "maroon", 9, 7, 900);
+    await shoeCatalogue.addShoe("Tommy Helfigure", "brown", 8, 570, 9);
+    await shoeCatalogue.addShoe("Lacoste", "maroon", 9, 900, 7);
     let shoes = await shoeCatalogue.getShoesByBrand("Lacoste");
 
     assert.equal(shoes.length, 1);
