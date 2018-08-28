@@ -11,7 +11,7 @@ if (process.env.DATABASE_URL) {
 const pool = new Pool({
   connectionString:
     process.env.DATABASE_URL ||
-    "postgresql://postgres:lavish@localhost:5432/shoe-catalogue-test",
+    "postgresql://aviwe:aviwe@localhost:5432/shoe-catalogue-test",
   ssl: useSSL
 });
 
