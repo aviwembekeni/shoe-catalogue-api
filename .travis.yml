@@ -1,0 +1,16 @@
+language: node_js
+
+env:
+     - DB=postgresql://postgres@localhost:5432/shoe-catalogue-test
+
+node_js:
+   - "8.9.4"
+
+before_script:
+  - psql -c 'create database shoe-catalogue-test;' -U postgres
+  - psql -U postgres -d shoe-catalogue-test -a -f shoe-catalogue-script.sql
+
+addons:
+    apt:
+    packages:
+    - postgresql-server-dev-9.2
