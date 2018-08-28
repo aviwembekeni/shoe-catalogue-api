@@ -7,8 +7,8 @@ node_js:
    - "8.9.4"
 
 before_script:
-  - psql -c 'create database shoe-catalogue-test;' -U postgres
-  - psql -U postgres -d shoe-catalogue-test -a -f shoe-catalogue-script.sql
+  - psql -c 'create database shoe_catalogue_test;' -U postgres
+  - psql -U postgres -d shoe_catalogue_test -a -f shoe-catalogue-script.sql
 
 addons:
     apt:
