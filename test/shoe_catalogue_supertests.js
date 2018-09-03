@@ -1,5 +1,5 @@
 const request = require("supertest");
-const baseURL = "http://localhost:3000";
+const baseURL = process.env.BASE_URL || "http://localhost:3000";
 
 describe("GET /api/shoes", function() {
   it("shoeld respond with json", function(done) {
