@@ -126,8 +126,6 @@ app.post("/api/clear/", async function(req, res, next) {
   }
 });
 
-app.post("/api/shoes", async function(req, res, next) {});
-
 app.listen(PORT, () => {
   console.log(`app is running on PORT ${PORT}`);
 });

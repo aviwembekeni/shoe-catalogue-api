@@ -7,7 +7,7 @@
     "test": "test"
   },
   "scripts": {
-    "test": "mocha",
+    "test": "nyc --reporter=lcov --reporter=text-lcov mocha",
     "start": "nodemon server.js"
   },
   "author": "Aviwe Mbekeni",
@@ -22,6 +22,7 @@
     "pg": "^7.4.3"
   },
   "devDependencies": {
-    "mocha": "^5.2.0"
+    "mocha": "^5.2.0",
+    "supertest": "^3.1.0"
   }
 }
