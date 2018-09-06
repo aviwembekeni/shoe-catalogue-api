@@ -9,6 +9,7 @@ const sizeSelect = document.querySelector(".size");
 const priceSelect = document.querySelector(".price");
 const stockSelect = document.querySelector(".noOfStock");
 const addButton = document.querySelector(".addButton");
+const addNewShoeButton = document.querySelector(".addNewShoe");
 
 const shoppingBasketDisplayElem = document.querySelector(
   ".shoppingBasketDisplay"
@@ -24,14 +25,15 @@ const shoppingBasketTemplateSource = document.querySelector(
 ).innerHTML;
 const shoppingBasketTemplate = Handlebars.compile(shoppingBasketTemplateSource);
 
-const clearShoppingBasketButton = document.querySelector(".clearBtn");
+//const clearShoppingBasketButton = document.querySelector(".clearBtn");
 
 const successMessageDivElem = document.querySelector(".successMessageDiv");
 const errorMessageDivElem = document.querySelector(".errorMessageDiv");
 
 searchButton.addEventListener("click", handleSearch);
 addButton.addEventListener("click", handleAdd);
-clearShoppingBasketButton.addEventListener("click", handleClearBasket);
+//clearShoppingBasketButton.addEventListener("click", handleClearBasket);
+addNewShoeButton.addEventListener("click", showAddShoeModal);
 
 //Create ShoeCatalogue instance
 const shoeCatalogue = ShoeCatalogue();
@@ -167,3 +169,5 @@ function handleClearBasket() {
     })
     .catch(err => alert(err));
 }
+
+function showAddShoeModal() {}
