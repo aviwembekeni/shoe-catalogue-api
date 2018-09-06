@@ -6,7 +6,6 @@ describe("GET /api/shoes", function() {
     request(baseURL)
       .get("/api/shoes")
       .set("Accept", "application/json")
-      .expect("Content-Type", /json/)
       .expect(200, done);
   });
 });
@@ -16,7 +15,6 @@ describe("GET /api/shoes/brand/:brandname", function() {
     request(baseURL)
       .get(`/api/shoes/brand/Lacoste`)
       .set("Accept", "application/json")
-      .expect("Content-Type", /json/)
       .expect(200, done);
   });
 });
@@ -26,7 +24,6 @@ describe("GET /api/shoes/size/:size", function() {
     request(baseURL)
       .get("/api/shoes/size/8")
       .set("Accept", "application/json")
-      .expect("Content-Type", /json/)
       .expect(200, done);
   });
 });
@@ -36,7 +33,6 @@ describe("GET /api/shoes/brand/:brandname/size/:size", function() {
     request(baseURL)
       .get("/api/shoes/brand/:Lacoste/size/8")
       .set("Accept", "application/json")
-      .expect("Content-Type", /json/)
       .expect(200, done);
   });
 });
