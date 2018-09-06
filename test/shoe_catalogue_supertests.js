@@ -2,38 +2,38 @@ const request = require("supertest");
 const baseURL = process.env.BASE_URL || "http://localhost:3000";
 
 describe("GET /api/shoes", function() {
-  it("shoeld respond with json", function(done) {
+  it("shoeld respond with json", function() {
     request(baseURL)
       .get("/api/shoes")
       .set("Accept", "application/json")
-      .expect(200, done);
+      .expect(200);
   });
 });
 
 describe("GET /api/shoes/brand/:brandname", function() {
-  it("shoeld respond with json", function(done) {
+  it("shoeld respond with json", function() {
     request(baseURL)
       .get(`/api/shoes/brand/Lacoste`)
       .set("Accept", "application/json")
-      .expect(200, done);
+      .expect(200);
   });
 });
 
 describe("GET /api/shoes/size/:size", function() {
-  it("shoeld respond with json", function(done) {
+  it("shoeld respond with json", function() {
     request(baseURL)
       .get("/api/shoes/size/8")
       .set("Accept", "application/json")
-      .expect(200, done);
+      .expect(200);
   });
 });
 
 describe("GET /api/shoes/brand/:brandname/size/:size", function() {
-  it("shoeld respond with json", function(done) {
+  it("shoeld respond with json", function() {
     request(baseURL)
       .get("/api/shoes/brand/:Lacoste/size/8")
       .set("Accept", "application/json")
-      .expect(200, done);
+      .expect(200);
   });
 });
 
